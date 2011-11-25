@@ -1,40 +1,44 @@
+require 'set'
 def solve(target, numbers)
 	best_diff = target
-	best_str = ''
-	n = numbers.size
-	ops = []
-	n.times do
-		ops << '+'
-		ops << '-'
-		ops << '*'
-		ops << '/'
+	best_result = 0
+	if numbers.include? target
+		puts "Target included in numbers"
+		return
 	end
-	uniqOps = []
-	n.downto(2) do |i|
-		uniqOps[i] = ops.permutation(i - 1).to_a.uniq
+	ops = %w(+ - * /)
+	result = {}
+	numbers.each do |n|
+		result[ [n] ] = Set.new [n]
 	end
-	n.downto(2) do |i|
-		numbers.permutation(i).to_a.uniq do |nums|
-			uniqOps[i].each do |op|
-				str = ''
-				numbers.each do |num|
-					str << num.to_s
-					str << op.pop unless op.empty?
-				end
-				result = eval str
-				if (target - result).abs < best_diff
-					best_diff = (target - result).abs
-					best_str = str
-					if best_diff == 0
-						puts "Found: #{str}"
-						return str
+	(2..numbers.size).each do |i|
+		numbers.permutation(i).to_a.uniq.each do |perm|
+			(1..(perm.size - 1)).each do |s|
+				left = perm.slice(0...s)
+				right = perm.slice(s..-1)
+				total = Set.new
+				result[left].each do |lr|
+					ops.each do |op|
+						result[right].each do |rr|
+							res = eval "#{lr} #{op} #{rr}"
+							next if res == 0
+							if (res - target).abs < best_diff
+								best_diff = (res - target).abs
+								best_result = res
+								if best_diff == 0
+									puts "Best result is #{target}"
+									return
+								end
+							end
+							total.add(res)
+						end
 					end
 				end
+				result[perm] = total
 			end
 		end
 	end
-	puts "Closest was: #{best_diff} via: #{best_str}"
-	best_str
+	puts "Best result is #{best_result}"
 end
 
 def generate(small, large)
