@@ -31,5 +31,5 @@ t = Random.new.rand(100..1000)
 puts "The numbers are: #{n}"
 puts "The target is: #{t}"
 
-result, method = h(t, n)
-puts "Best result is #{result} via #{method}"
+method = h(t, n)
+puts "Best result is #{eval method} via #{method}"
