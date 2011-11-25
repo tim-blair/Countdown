@@ -25,7 +25,7 @@ def solve(target, numbers)
 						result[right].each do |rr|
 							#sigh
 							next if op == '/' and lr % rr != 0
-							res = eval "#{lr} #{op} #{rr}"
+							res = lr.send(op, rr)
 							next if res == 0
 							total.add(res)
 							method[[res, perm]] = "(#{method[[lr,left]]}) #{op} (#{method[[rr,right]]})"
