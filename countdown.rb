@@ -2,14 +2,17 @@ require 'set'
 def solve(target, numbers)
 	best_diff = target
 	best_result = 0
+	best_method = ''
 	if numbers.include? target
 		puts "Target included in numbers"
 		return
 	end
+	method = {} #map [result, numbers] to how we combined the numbers to get the result
 	ops = %w(+ - * /)
 	result = {}
 	numbers.each do |n|
 		result[ [n] ] = Set.new [n]
+		method[[n,[n]]] = n.to_s
 	end
 	(2..numbers.size).each do |i|
 		numbers.permutation(i).to_a.uniq.each do |perm|
@@ -20,17 +23,21 @@ def solve(target, numbers)
 				result[left].each do |lr|
 					ops.each do |op|
 						result[right].each do |rr|
+							#sigh
+							next if op == '/' and lr % rr != 0
 							res = eval "#{lr} #{op} #{rr}"
 							next if res == 0
+							total.add(res)
+							method[[res, perm]] = "(#{method[[lr,left]]}) #{op} (#{method[[rr,right]]})"
 							if (res - target).abs < best_diff
 								best_diff = (res - target).abs
 								best_result = res
+								best_method = method[[res, perm]]
 								if best_diff == 0
-									puts "Best result is #{target}"
+									puts "Best result is #{target} via #{best_method}"
 									return
 								end
 							end
-							total.add(res)
 						end
 					end
 				end
@@ -38,7 +45,7 @@ def solve(target, numbers)
 			end
 		end
 	end
-	puts "Best result is #{best_result}"
+	puts "Best result is #{best_result} via #{best_method}"
 end
 
 def generate(small, large)
