@@ -26,7 +26,7 @@ def solve(target, numbers)
 							#sigh
 							next if op == '/' and lr % rr != 0
 							res = lr.send(op, rr)
-							next if res == 0
+							next if res < 1
 							total.add(res)
 							method[[res, perm]] = "(#{method[[lr,left]]}) #{op} (#{method[[rr,right]]})"
 							if (res - target).abs < best_diff
