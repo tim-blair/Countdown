@@ -12,11 +12,11 @@ o=[]
 b[l].each{|q|u.each{|k|b[a].each{|g|c=q.send k,g
 next if c<1||k=='/'&&q%g<1
 o=o|[c]
-m[[c,p]]="(#{m[[q,l]]})#{k}(#{m[[g,a]]})"
+r=m[[c,p]]="(#{m[[q,l]]})#{k}(#{m[[g,a]]})"
 e=(c-t).abs
 if e<d
 d=e
-f=m[[c,p]]
+f=r
 return f if d<1
 end}}}
 b[p]=o}}}
