@@ -6,8 +6,8 @@ u=%w(+ - * /)
 b={}
 n.each{|i|b[[i]]=[i]
 m[[i,[i]]]=i}
-(2..n.size).each{|i|n.permutation(i).to_a.uniq.each{|p|(1..p.size-1).each{|s|l=p.slice 0...s
-a=p.slice s..-1
+(2..n.size).each{|i|n.permutation(i).to_a.uniq.each{|p|(1..p.size-1).each{|s|l=p.take s
+a=p.drop s
 o=[]
 b[l].each{|q|u.each{|k|b[a].each{|g|next if k=='/'&&q%g<1
 c=q.send k,g
@@ -18,7 +18,7 @@ e=(c-t).abs
 if e<d
 d=e
 f=m[[c,p]]
-return f if d==0
+return f if d<1
 end}}}
 b[p]=o}}}
 f
