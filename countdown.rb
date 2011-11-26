@@ -9,9 +9,8 @@ m[[i,[i]]]=i}
 (2..n.size).each{|i|n.permutation(i).to_a.uniq.each{|p|(1..p.size-1).each{|s|l=p.take s
 a=p.drop s
 o=[]
-b[l].each{|q|u.each{|k|b[a].each{|g|next if k=='/'&&q%g<1
-c=q.send k,g
-next if c<1
+b[l].each{|q|u.each{|k|b[a].each{|g|c=q.send k,g
+next if c<1||k=='/'&&q%g<1
 o=o|[c]
 m[[c,p]]="(#{m[[q,l]]})#{k}(#{m[[g,a]]})"
 e=(c-t).abs
