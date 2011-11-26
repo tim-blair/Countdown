@@ -3,10 +3,6 @@ def solve(target, numbers)
 	best_diff = target
 	best_result = 0
 	best_method = ''
-	if numbers.include? target
-		puts "Target included in numbers"
-		return
-	end
 	method = {} #map [result, numbers] to how we combined the numbers to get the result
 	ops = %w(+ - * /)
 	result = {}
